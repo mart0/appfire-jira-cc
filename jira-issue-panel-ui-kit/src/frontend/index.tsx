@@ -44,7 +44,6 @@ const App = () => {
 
   return (
     <Fragment>
-      <Text>**RELATED BUGS**</Text>
       <BugPanel bugs={bugs} onDeleteBug={handleDeleteBug} />
     </Fragment>
   );
