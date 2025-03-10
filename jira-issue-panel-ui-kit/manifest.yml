@@ -1,7 +1,6 @@
 modules:
   jira:issuePanel:
-    # - key: jira-issue-panel-2-hello-world-issue-panel
-     - key: jira-issue-panel-ui-kit
+    - key: jira-issue-panel-ui-kit
       resource: main
       resolver:
         function: resolver

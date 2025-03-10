@@ -1,3 +1,7 @@
+// Load environment variables from .env file
+import dotenv from 'dotenv';
+dotenv.config();
+
 // Replace these with your actual credentials
 export const JIRA_CONFIG = {
   EMAIL: process.env.EMAIL || '', // Replace with your Jira email
