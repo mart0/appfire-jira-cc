@@ -1,13 +1,14 @@
 import React from 'react';
-import { Text, DynamicTable, Link } from '@forge/react';
+import { Text, DynamicTable, Link, Button } from '@forge/react';
 import { Bug } from '../../types/apiResponse';
 // import { JIRA_CONFIG } from '../../config';
 
 type BugPanelProps = {
   bugs: Bug[];
+  onDeleteBug?: (id: string) => void;
 }
 
-const BugPanel = ({ bugs }: BugPanelProps) => {
+const BugPanel = ({ bugs, onDeleteBug }: BugPanelProps) => {
   if (bugs.length === 0) {
     return <Text>No bugs found</Text>;
   }
@@ -15,6 +16,12 @@ const BugPanel = ({ bugs }: BugPanelProps) => {
   const createKey = (input: string) => {
     return input ? input.replace(/^(the|a|an)/, "").replace(/\s/g, "") : input;
   }
+
+  const handleDelete = (id: string) => {
+    if (onDeleteBug) {
+      onDeleteBug(id);
+    }
+  };
 
   const rows = bugs.map((bug, index) => ({
     key: `row-${index}-${bug.id}`,
@@ -45,7 +52,7 @@ const BugPanel = ({ bugs }: BugPanelProps) => {
       },
       {
         key: createKey(bug.id.toString()),
-        content: <Link href="">Delete</Link>,
+        content: <Button onClick={() => handleDelete(bug.id.toString())}>Delete</Button>,
       },
     ],
   }));
