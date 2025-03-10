@@ -16,8 +16,11 @@
     "@types/react": "^18.2.55",
     "@typescript-eslint/eslint-plugin": "^8.26.0",
     "@typescript-eslint/parser": "^8.26.0",
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.1",
     "eslint": "^8.56.0",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "stream-browserify": "^3.0.0",
     "typescript": "^5.3.3"
   },
   "dependencies": {

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Text, DynamicTable, Link } from '@forge/react';
 import { Bug } from '../../types/apiResponse';
+// import { JIRA_CONFIG } from '../../config';
 
-interface BugPanelProps {
+type BugPanelProps = {
   bugs: Bug[];
-  onDeleteBug?: (id: number) => void;
 }
 
 const BugPanel = ({ bugs }: BugPanelProps) => {
@@ -19,6 +19,10 @@ const BugPanel = ({ bugs }: BugPanelProps) => {
   const rows = bugs.map((bug, index) => ({
     key: `row-${index}-${bug.id}`,
     cells: [
+      {
+        key: createKey(bug.jiraId),
+        content: <Link href={`https://appfire-mmarinovm.atlassian.net/browse/${bug.jiraId}`}>{bug.jiraId}</Link>,
+      },
       {
         key: createKey(bug.summary),
         content: bug.summary,
@@ -48,6 +52,11 @@ const BugPanel = ({ bugs }: BugPanelProps) => {
 
   const head = {
    cells: [  
+    { 
+      key: "jira-id",
+      content: "JIRA",
+      isSortable: true,
+    },
     { 
       key: "summary",
       content: "Summary",
@@ -81,7 +90,6 @@ const BugPanel = ({ bugs }: BugPanelProps) => {
       key: "actions",
       content: "Actions",
       shouldTruncate: true,
-      isSortable: true,
     },
   ],
 };
@@ -93,23 +101,6 @@ const BugPanel = ({ bugs }: BugPanelProps) => {
       rows={rows}
     />
   );
-
-
-  // return (
-  //   <Fragment>
-  //     {bugs.map((bug: Bug) => (
-  //       <Fragment key={bug.id}>
-  //         <Text>──────────────────────</Text>
-  //         <Text>**Summary:** {bug.summary}</Text>
-  //         <Text>**Created:** {bug.created}</Text>
-  //         <Text>**Assignee:** {bug.assignee}</Text>
-  //         <Text>**Status:** {bug.status}</Text>
-  //         <Text>**Priority:** {bug.priority}</Text>
-  //         <Text>**Actions:** Click ID {bug.id} to delete</Text>
-  //       </Fragment>
-  //     ))}
-  //   </Fragment>
-  // );
 };
 
 export default BugPanel;

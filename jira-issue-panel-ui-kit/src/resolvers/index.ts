@@ -1,26 +1,14 @@
 import Resolver from '@forge/resolver';
 import { getRelatedBugs } from './jiraApi';
-import { JIRA_CONFIG } from '../config';
-
-// Define the request payload type
-interface RequestContext {
-  context: {
-    extension?: {
-      issue?: {
-        key?: string;
-        id?: string;
-      };
-    };
-    [key: string]: any;
-  };
-}
+import { JIRA_CONFIG } from '../utils/config';
 
 const resolver = new Resolver();
 
 resolver.define('getRelatedBugs', async (req) => {
-  // console.log('Request context:', JSON.stringify(req, null, 2));
+  // Debug: Log environment variables and config
+  // console.log('Environment variables:', process.env);
+  // console.log('JIRA_CONFIG:', JIRA_CONFIG);
   
-  // Try different paths to find the issue key
   const context = req.context || {};
   const extension = context.extension || {};
   const issue = extension.issue || {};
@@ -29,10 +17,11 @@ resolver.define('getRelatedBugs', async (req) => {
   const issueKey = issue.key || 
                   context.issueKey || 
                   context.issue?.key ||
-                  req.issueKey ||
+                  // req.issueKey ||
                   'TEST-1'; // Fallback for testing
   
-  // console.log('Using issue key:', issueKey);
+  console.log('Using issue key:', issue.key);
+
   
   const bugs = await getRelatedBugs(
     issueKey, 
@@ -42,4 +31,4 @@ resolver.define('getRelatedBugs', async (req) => {
   return bugs;
 });
 
-export const handler = resolver.getDefinitions();
+export const handler: any = resolver.getDefinitions();

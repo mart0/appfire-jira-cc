@@ -26,16 +26,8 @@ const App = () => {
     fetchBugs();
   }, []);
 
-  const handleDeleteBug = (id: number) => {
-    // Filter out the deleted bug
-    setBugs(prevBugs => prevBugs.filter(bug => bug.id !== id));
-    
-    // In a real app, you would also call an API to delete the bug
-    // Example: invoke('deleteBug', { id });
-  };
-
   if (loading) {
-    return <Text>Loading bugs...</Text>;
+    return <Text>Loading linked bugs...</Text>;
   }
 
   if (error) {
@@ -44,7 +36,8 @@ const App = () => {
 
   return (
     <Fragment>
-      <BugPanel bugs={bugs} onDeleteBug={handleDeleteBug} />
+      <Text>Hello World</Text>
+      <BugPanel bugs={bugs} />
     </Fragment>
   );
 };

@@ -1,6 +1,10 @@
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const dotenv = require('dotenv');
+
+// Load environment variables from .env file
+dotenv.config();
 
 // Ensure dist directory exists
 if (!fs.existsSync('dist')) {
@@ -10,7 +14,15 @@ if (!fs.existsSync('dist')) {
 // Compile TypeScript
 console.log('Compiling TypeScript...');
 try {
-  execSync('npx tsc', { stdio: 'inherit' });
+  // Set environment variables for the build process
+  const env = {
+    ...process.env,
+    EMAIL: process.env.EMAIL || '',
+    API_TOKEN: process.env.API_TOKEN || '',
+    BASE_URL: process.env.BASE_URL || ''
+  };
+  
+  execSync('npx tsc', { stdio: 'inherit', env });
   console.log('TypeScript compilation successful!');
 } catch (error) {
   console.error('TypeScript compilation failed:', error);
