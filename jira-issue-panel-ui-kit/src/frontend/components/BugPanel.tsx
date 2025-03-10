@@ -1,7 +1,6 @@
 import React from 'react';
 import { Text, DynamicTable, Link, Button } from '@forge/react';
 import { Bug } from '../../types/apiResponse';
-// import { JIRA_CONFIG } from '../../config';
 
 type BugPanelProps = {
   bugs: Bug[];
@@ -103,7 +102,7 @@ const BugPanel = ({ bugs, onDeleteBug }: BugPanelProps) => {
 
   return (
     <DynamicTable
-      caption="Bugs linked to the issue"
+      caption="Bugs linked to this issue"
       head={head}
       rows={rows}
     />

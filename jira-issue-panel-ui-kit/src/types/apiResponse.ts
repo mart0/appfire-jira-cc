@@ -20,8 +20,8 @@ export type JiraIssueLink = {
     fields: JiraIssueFields;
   };
   outwardIssue?: {
-  id: string;
-  key: string;
+    id: string;
+    key: string;
     fields: JiraIssueFields;
   };
 }

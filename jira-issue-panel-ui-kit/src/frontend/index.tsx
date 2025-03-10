@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Fragment } from 'react';
-import ForgeReconciler, { Text, Button } from '@forge/react';
+import ForgeReconciler, { Text } from '@forge/react';
 import { invoke } from '@forge/bridge';
 import BugPanel from './components/BugPanel';
 import { Bug } from '../types/apiResponse';
