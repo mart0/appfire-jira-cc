@@ -1,16 +1,10 @@
 import { getRelatedBugs, deleteIssueLink } from '../../src/resolvers/jiraApi';
 import { JIRA_CONFIG } from '../../src/utils/config';
-import { Bug, JiraResponse } from '../../src/types/apiResponse';
+import { JiraResponse } from '../../src/types/apiResponse';
 
-// Mock axios instead of the HTTP module
-jest.mock('axios', () => ({
-  __esModule: true,
-  default: jest.fn()
-}));
-
-// Import axios after mocking
-import axios from 'axios';
-const mockedAxios = axios as jest.MockedFunction<typeof axios>;
+// Mock axios
+jest.mock('axios');
+const axios = require('axios');
 
 describe('getRelatedBugs', () => {
   const mockIssueId = 'TEST-1';
@@ -56,7 +50,7 @@ describe('getRelatedBugs', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    mockedAxios.mockResolvedValue({
+    axios.mockResolvedValue({
       status: 200,
       data: mockJiraResponse
     });
@@ -90,7 +84,7 @@ describe('getRelatedBugs', () => {
 
   it('should return an empty array if no bugs are found', async () => {
     // Mock axios to return no bugs
-    mockedAxios.mockResolvedValue({
+    axios.mockResolvedValue({
       status: 200,
       data: {
         fields: {
@@ -106,7 +100,7 @@ describe('getRelatedBugs', () => {
 
   it('should handle errors and return an empty array', async () => {
     // Mock axios to throw an error
-    mockedAxios.mockRejectedValue(new Error('API Error'));
+    axios.mockRejectedValue(new Error('API Error'));
 
     const result = await getRelatedBugs(mockIssueId, mockEmail, mockApiToken);
 
@@ -121,7 +115,7 @@ describe('deleteIssueLink', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    mockedAxios.mockResolvedValue({
+    axios.mockResolvedValue({
       status: 204, // Use NO_CONTENT status for DELETE requests
       data: {}
     });
@@ -143,7 +137,7 @@ describe('deleteIssueLink', () => {
 
   it('should handle errors', async () => {
     // Mock axios to throw an error
-    mockedAxios.mockRejectedValue(new Error('API Error'));
+    axios.mockRejectedValue(new Error('API Error'));
 
     await expect(deleteIssueLink(mockLinkId, mockEmail, mockApiToken)).rejects.toThrow('API Error');
   });

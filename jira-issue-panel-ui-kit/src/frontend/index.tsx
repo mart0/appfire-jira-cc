@@ -50,7 +50,6 @@ const App = () => {
 
   return (
     <Fragment>
-      <Text>Related Bugs</Text>
       <BugPanel bugs={bugs} onDeleteBug={handleDeleteBug} />
     </Fragment>
   );
