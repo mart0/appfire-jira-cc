@@ -12,13 +12,8 @@ resolver.define('getRelatedBugs', async (req) => {
   // Get issue key from various possible locations
   const issueKey = issue.key || 
                   context.issueKey || 
-                  context.issue?.key ||
-                  // req.issueKey ||
-                  'TEST-1'; // Fallback for testing
-  
-  console.log('Using issue key:', issue.key);
+                  context.issue?.key
 
-  
   const bugs = await getRelatedBugs(
     issueKey, 
     JIRA_CONFIG.EMAIL, 
@@ -28,8 +23,7 @@ resolver.define('getRelatedBugs', async (req) => {
 });
 
 resolver.define('deleteIssueLink', async (req) => {
-  const linkId = req.payload?.linkId;
-  
+  const linkId = req.payload?.linkId; 
   if (!linkId) {
     throw new Error('Link ID is required');
   }

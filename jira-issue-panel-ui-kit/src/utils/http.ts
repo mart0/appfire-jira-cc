@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
-export enum HTTP_STATUS {
+enum HTTP_STATUS {
   OK = 200,
   BAD_REQUEST = 400,
   UNAUTHORIZED = 401,
@@ -43,7 +43,7 @@ export async function makeGetRequest<T>(
 
     return response.data as T;
   } catch (error) {
-    console.error('HTTP request failed:', error);
+    console.error('HTTP GET request failed:', error);
     throw error;
   }
 }
@@ -81,7 +81,7 @@ export async function makeDeleteRequest<T>(
 
     return response.data as T;
   } catch (error) {
-    console.error('HTTP request failed:', error);
+    console.error('HTTP DELETE request failed:', error);
     throw error;
   }
 }   
