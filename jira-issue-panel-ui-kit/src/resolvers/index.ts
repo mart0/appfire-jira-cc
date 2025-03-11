@@ -5,14 +5,11 @@ import { JIRA_CONFIG } from '../utils/config';
 const resolver = new Resolver();
 
 resolver.define('getRelatedBugs', async (req) => {
-  const context = req.context || {};
-  const extension = context.extension || {};
-  const issue = extension.issue || {};
-  
-  // Get issue key from various possible locations
-  const issueKey = issue.key || 
-                  context.issueKey || 
-                  context.issue?.key
+  // Get issue key in order to fetch related bugs later
+  const issueKey = req?.context?.extension?.issue?.key;
+  if (!issueKey) {
+    throw new Error('Issue key is required');
+  }
 
   const bugs = await getRelatedBugs(
     issueKey, 

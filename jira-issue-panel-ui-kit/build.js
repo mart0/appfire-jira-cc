@@ -2,8 +2,7 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const dotenv = require('dotenv');
-const webpack = require('webpack');
-const webpackConfig = require('./webpack.config.js');
+const esbuild = require('esbuild');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -13,22 +12,35 @@ if (!fs.existsSync('dist')) {
   fs.mkdirSync('dist');
 }
 
-// Bundle with webpack
-console.log('Bundling with webpack...');
-webpack(webpackConfig, (err, stats) => {
-  if (err || stats.hasErrors()) {
-    console.error('Webpack bundling failed:', err || stats.toString({
-      chunks: false,
-      colors: true
-    }));
-    process.exit(1);
-  }
-  
-  console.log('Webpack bundling successful!');
-  
-  // Copy non-TypeScript files to dist
-  console.log('Copying manifest.yml...');
-  fs.copyFileSync('manifest.yml', path.join('dist', 'manifest.yml'));
-  
-  console.log('Build completed successfully!');
-}); 
+// Bundle with esbuild
+console.log('Bundling with esbuild...');
+
+// Build backend
+esbuild.buildSync({
+  entryPoints: ['./src/index.ts'],
+  bundle: true,
+  outfile: 'dist/index.js',
+  platform: 'node',
+  target: 'node12',
+  external: ['@forge/resolver', '@forge/bridge', '@forge/react', 'react', 'react-dom'],
+  minify: true,
+  sourcemap: true,
+})
+
+// Build frontend
+esbuild.buildSync({
+  entryPoints: ['./src/frontend/index.tsx'],
+  bundle: true,
+  outfile: 'dist/frontend/index.js',
+  platform: 'browser',
+  target: 'es2015',
+  external: ['@forge/resolver', '@forge/bridge', '@forge/react', 'react', 'react-dom'],
+  minify: true,
+  sourcemap: true,
+})
+
+// Copy non-TypeScript files to dist
+console.log('Copying manifest.yml...');
+fs.copyFileSync('manifest.yml', path.join('dist', 'manifest.yml'));
+
+console.log('Build completed successfully!'); 
